@@ -17,6 +17,16 @@ CREATE DOMAIN TIPO_ID AS CHAR(4);
 CREATE DOMAIN D_NUM AS INTEGER
 CHECK (VALUE > 0 AND VALUE < 21);
 
+CREATE TABLE departamento
+(   
+    numero      TIPO_ID, 
+    nome        VARCHAR(15) NOT NULL, 
+    gident      TIPO_ID, 
+    dtinicio    DATE,
+    numerofunc  INTEGER,
+    PRIMARY KEY (numero)
+);
+
 CREATE TABLE funcionario
 (
 	ident       TIPO_ID,
@@ -28,7 +38,9 @@ CREATE TABLE funcionario
 	sexo        VARCHAR(15),
 	supident    TIPO_ID,
 	dnumero     TIPO_ID NOT NULL,
-	PRIMARY KEY (ident)
+	PRIMARY KEY (ident),
+    FOREIGN KEY (supident) REFERENCES funcionario (ident),
+    FOREIGN KEY (dnumero) REFERENCES departamento (numero)
 );
 
 CREATE TABLE dependente
@@ -39,15 +51,6 @@ CREATE TABLE dependente
     sexo            VARCHAR(15), 
     relacionamento  VARCHAR(15),  
     PRIMARY KEY (fident, nome)
-);
-
-CREATE TABLE departamento
-(   
-    numero      TIPO_ID, 
-    nome        VARCHAR(15) NOT NULL, 
-    gident      TIPO_ID, 
-    dtinicio    DATE,
-    PRIMARY KEY (numero)
 );
 
 CREATE TABLE localizacoes
@@ -72,4 +75,12 @@ CREATE TABLE trabalha_em
     fident  TIPO_ID, 
     horas   INTEGER,
     PRIMARY KEY (pnumero, fident)
+);
+
+CREATE TABLE chamada
+(
+    prontuario      varchar(15),
+    nome            varchar(50),
+    time_coracao    varchar(50),
+    PRIMARY KEY (prontuario)        
 );
